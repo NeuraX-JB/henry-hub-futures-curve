@@ -1,17 +1,14 @@
-# Data use and attribution
+# Curve data and attribution
 
-This repository presents independent research and educational applications. Public access to source data does not necessarily grant unrestricted redistribution or commercial reuse.
+This repository contains only the futures-curve project. Its frozen observations are bundled in [market.js](market.js); it does not include the separate storage, weather or API datasets from the original portfolio.
 
-| Source | Material used | Where documented |
+| Source | Material in this repository | Original reference |
 | :--- | :--- | :--- |
-| U.S. Energy Information Administration (EIA) | Lower 48 storage, Henry Hub spot observations and historical futures archive | [Shared source notes](lab/data/README.md), [EIA data](https://www.eia.gov/naturalgas/) |
-| NOAA Climate Prediction Center | Observed population-weighted degree days | [Shared source notes](lab/data/README.md) |
-| NOAA GFS operational archive | Archived temperature forecast fields | [Weather methodology](lab/weather/README.md) |
-| U.S. Census Bureau / us-atlas | Population sampling weights and state geometry | [Weather methodology](lab/weather/README.md), [us-atlas license](lab/weather/research/US_ATLAS_LICENSE) |
-| SEC filings | Selected reconstructed futures curve snapshots and archived price examples | [Curve explorer](https://neurax-jb.github.io/Henry-Hub-Futures-Curve-Explorer-How-the-Natural-Gas-Market-prices-winter/), [Industrial simulator](https://neurax-jb.github.io/Henry-Hub-Futures-Curve-Explorer-How-the-Natural-Gas-Market-prices-winter/lab/industrial/) |
+| EIA / NYMEX | 28,048 observations across 7,012 selected complete four-contract curves, 1994-02-01–2024-04-05 | [EIA futures series](https://www.eia.gov/dnav/ng/ng_pri_fut_s1_d.htm), [definitions and source](https://www.eia.gov/dnav/ng/tbldefs/ng_pri_fut_tbldef2.asp) |
+| U.S. 12 Month Natural Gas Fund SEC filings | 156 reconstructed prices across 13 position dates, 2023-09-29–2026-09-30 | The `meta.sources` map in [market.js](market.js) and the expandable filing list in [the application's Data notes](index.html) |
 
-EIA attributes the underlying Henry Hub spot price data to Refinitiv, an LSEG business. Check the relevant third-party terms before redistributing or using those quotes commercially. Filings may include third-party information and do not automatically confer a redistribution license.
+For each long futures position, the reconstruction uses `(original notional + signed unrealized gain/loss) / (contracts × 10,000 MMBtu)`, rounded to $0.001/MMBtu. Observation dates refer to positions; the corresponding filings became public later. The EIA archive uses nearby contract ranks and reconstructed delivery labels. Source limitations and excluded observations are described in the application.
 
-The [source manifest](lab/data/manifest.json) documents retrieval times and hashes; the [API metadata](lab/api/v1/index.json) documents coverage and units. Historical source files may contain revisions.
+The original input data and methodology come from source commit `80c2e5321dadc95aadd4c7f65792fb15f0e2f156`; [SOURCE_SNAPSHOT.json](SOURCE_SNAPSHOT.json) records that provenance. The standalone data are frozen, and source files may subsequently be revised. Neither dataset is a live quotation service or a continuous, unfiltered settlement record.
 
-No repository-wide license is declared. The separate us-atlas license remains applicable to its covered material. A repository-wide license and the rights to any third-party datasets or media should be reviewed independently before relicensing or commercial distribution. Nothing in this document grants new rights to third-party content.
+Public availability does not necessarily grant unrestricted redistribution or commercial reuse. The original source's terms remain applicable, including any third-party material in filings or EIA publications. No repository-wide license or new rights to third-party content are granted here.

@@ -1,0 +1,10 @@
+{
+  "commands": [
+    [
+      "node",
+      "--test",
+      "tests/engine.test.cjs",
+      "tests/ui.test.cjs"
+    ]
+  ]
+}

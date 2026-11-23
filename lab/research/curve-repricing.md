@@ -8,7 +8,7 @@ When a natural gas futures curve changes, does the market reprice each delivery 
 
 The portfolio's curve archive includes snapshots reconstructed from SEC filings for 30 June and 30 September 2026. In those snapshots January 2027 delivery moved from $4.391 to $3.752 per MMBtu, a decline of $0.639 per MMBtu. The other overlapping delivery months did not all change by the same amount.
 
-[Open the matching-delivery-month comparison](https://neurax-jb.github.io/Henry-Hub-Futures-Curve-Explorer-How-the-Natural-Gas-Market-prices-winter/?data=strips&view=curve&a=2026-06-30&b=2026-09-30&align=delivery)
+[Open the matching-delivery-month comparison](../../index.html?data=strips&view=curve&a=2026-06-30&b=2026-09-30&align=delivery)
 
 ## Interpretation
 
@@ -18,8 +18,9 @@ The two snapshots establish price changes, not their causes. They cannot isolate
 
 ## Evidence
 
-- [Interactive curve explorer](https://neurax-jb.github.io/Henry-Hub-Futures-Curve-Explorer-How-the-Natural-Gas-Market-prices-winter/)
-- [Application and embedded sources](https://github.com/NeuraX-JB/Henry-Hub-Futures-Curve-Explorer-How-the-Natural-Gas-Market-prices-winter/blob/ba3b94ba3a97c3262099da73a25a3a33f06c34ee/index.html)
+- [Interactive curve explorer](../../index.html)
+- [Frozen observations and source filing map](../../market.js)
+- [Source construction and attribution](../../DATA_SOURCES.md)
 - [Research portfolio](https://neurax-jb.github.io/Henry-Hub-Futures-Curve-Explorer-How-the-Natural-Gas-Market-prices-winter/lab/)
 
 This analysis is for research and education, not investment advice.
