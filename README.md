@@ -2,61 +2,63 @@
 
 **John Barreto · Independent natural gas research**
 
-Compare historical Henry Hub delivery-month prices, March–April spreads and winter premiums using two explicitly separate archives.
+How differently can January and July gas reprice between the same two dates? In the June and September 2026 fund holdings, January 2027 delivery fell **$0.639/MMBtu** and July fell **$0.160/MMBtu**. Both comparisons hold the delivery contract fixed. The explorer lets you repeat the calculation across the nine overlapping months.
 
-**[Open this project](https://neurax-jb.github.io/henry-hub-futures-curve/) · [Worked research note](lab/research/curve-repricing.md) · [Original research portfolio](https://neurax-jb.github.io/Henry-Hub-Futures-Curve-Explorer-How-the-Natural-Gas-Market-prices-winter/lab/)**
+[Compare the June and September curves](https://neurax-jb.github.io/henry-hub-futures-curve/?data=strips&view=curve&a=2026-06-30&b=2026-09-30&align=delivery) · [Inspect all nine changes](lab/research/curve-repricing.md) · [Open the explorer](https://neurax-jb.github.io/henry-hub-futures-curve/)
 
-This standalone edition is a **historical snapshot**, with no live price feed or scheduled refresh. EIA observations end on **5 April 2024**; reconstructed SEC snapshots end on **30 September 2026**. These are observation dates, not a claim that filings were publicly available on those dates.
+## Choose a comparison
 
-## Research question
+| Question | View | How to read it |
+| --- | --- | --- |
+| How much did the price for a particular delivery month move? | [Curve comparison](https://neurax-jb.github.io/henry-hub-futures-curve/?data=strips&view=curve&a=2026-06-30&b=2026-09-30&align=delivery) | Use **Delivery month** to match the same contract. The change is B minus A. A blank means one observation lacks that contract. |
+| How did the front of the curve change shape? | [Contract tenor](https://neurax-jb.github.io/henry-hub-futures-curve/?data=strips&view=curve&a=2026-06-30&b=2026-09-30&align=tenor) | M1 is the first quoted delivery on each date. M1 can represent a different calendar month on each curve. Gaps keep their calendar positions. |
+| How much more did March gas cost than April gas? | [March–April, 2027 delivery](https://neurax-jb.github.io/henry-hub-futures-curve/?data=strips&view=spread&year=2027&peer=none) | Subtract April from March on the same observation date. Years align by calendar days before 1 March. Lines connect available pairs. |
+| How expensive was an entire winter relative to summer? | [Winter premium on 30 September 2026](https://neurax-jb.github.io/henry-hub-futures-curve/?data=strips&view=winter&date=2026-09-30&winter=2026) | Compare the equal-weight average for November–March with the following April–October average. The premium requires all 12 delivery months. |
 
-When the natural gas market reprices a curve, do different delivery months and seasons move by the same amount?
+## What the archives cover
 
-Try the [June–September 2026 comparison](https://neurax-jb.github.io/henry-hub-futures-curve/?data=strips&view=curve&a=2026-06-30&b=2026-09-30&align=delivery). January 2027 changes from $4.391 to $3.752 per MMBtu in these archived reconstructions. The difference is −$0.639 per MMBtu; the comparison establishes repricing, not its cause.
+This edition serves a frozen historical dataset. It has no live price feed or scheduled refresh. All prices are U.S. dollars per million British thermal units (USD/MMBtu).
 
-## Data and methods
+| Source | Observations | What a row represents |
+| --- | --- | --- |
+| EIA / NYMEX | 7,012 selected dates, 1 Feb 1994–5 Apr 2024, four nearby contracts per date | A reported settlement by contract rank, with its delivery month reconstructed from checked rolls. Incomplete curves, consecutive identical carry-forwards and observations near unverified rolls were excluded. |
+| United States 12 Month Natural Gas Fund / SEC filings | 13 position dates, 29 Sep 2023–30 Sep 2026, 12 contract prices per date | A price reconstructed from a disclosed position and rounded to $0.001/MMBtu. Each filing became public after its position date. |
 
-| Dataset | Frozen coverage | Interpretation |
-| :--- | :--- | :--- |
-| EIA daily archive | 7,012 selected dates, 1 February 1994–5 April 2024; four nearby contracts per date | Delivery months reconstructed from EIA contract ranks and checked roll dates; incomplete curves, carry-forwards and unverified rolls excluded |
-| SEC fund holdings | 13 observations, 29 September 2023–30 September 2026; 12 prices per observation | Prices reconstructed from fund positions and rounded to $0.001/MMBtu; filings were published after the position dates |
+Keep each comparison within one archive. The four-contract archive cannot supply an entire winter and its following summer on one date. The 12-contract snapshots can when the quoted months cover November through the following October. The source guide gives the reconstruction formula, original references and reuse terms. [Data sources and attribution](DATA_SOURCES.md)
 
-The sources have different coverage and construction. They do not form a continuous exchange settlement history. See [DATA_SOURCES.md](DATA_SOURCES.md) and **Data notes** in the application for original source links and the reconstruction formula.
+## Import or export data
 
-- **Delivery alignment** matches the same calendar delivery month. Changes are B minus A; blanks mean an unobserved leg.
-- **Tenor alignment** anchors each curve's first quoted delivery month at M1. Calendar gaps are retained, so an absent month does not shift later contracts into the wrong tenor.
-- **March–April** subtracts April from March for the same delivery year and observation date. Years align by calendar days before 1 March; lines connect observed pairs.
-- **Winter premium** is the simple mean of November–March minus the following April–October. All five winter and seven summer months are required; months carry equal weight.
-
-## Use your own observations
-
-Open **Data notes → Import settlement data** and choose a local CSV smaller than 12 MB:
+In **Data notes → Import settlement data**, select a local CSV up to 12 MiB. The following two observations use the bundled January contract.
 
 ```csv
 date,month,price
-2025-09-30,2026-01,4.177
-2025-09-30,2026-02,3.952
+2026-06-30,2027-01,4.391
+2026-09-30,2027-01,3.752
 ```
 
-Use ISO calendar dates (`YYYY-MM-DD`), delivery months (`YYYY-MM`) and numeric USD/MMBtu prices. Blank prices, duplicate date/month pairs, invalid dates and non-finite values are rejected. Negative prices are allowed. The supported numeric range is ±1,000,000,000 USD/MMBtu, preventing extreme floating-point inputs from breaking calculations and chart ranges. Imports stay in the current tab until reload; shared URLs restore only bundled datasets.
+Select those dates as A and B to reproduce the January change. Use ISO dates (`YYYY-MM-DD`), delivery months (`YYYY-MM`) and numeric USD/MMBtu prices. The importer accepts negative prices within ±1,000,000,000 USD/MMBtu. It rejects blank prices, invalid dates, non-finite values and duplicate date/month pairs. Imports stay in the tab until reload. Shared links restore only the bundled archives.
 
-CSV exports include **all comparison rows**, including rows not yet expanded in the table, plus dataset, price origin, original source links and the source snapshot commit. Use arrow keys, Home and End to inspect chart points; the detailed table provides the same numeric observations.
+The chart supports the arrow, Home and End keys. Its table contains the numeric observations. CSV exports include every comparison row, its price origin, source links and the source snapshot commit.
 
-## Run and verify locally
+## Run locally
 
-Requirements: Python 3 for a static server and Node.js for tests. There are no application runtime dependencies, API keys or network fetches.
+From the repository root, start a web server and open `http://localhost:8000/`. The application reads its data locally.
 
 ```sh
 python -m http.server 8000
-# Open http://localhost:8000/
+```
+
+In a second terminal at the repository root, check the calculations, interface and frozen files.
+
+```sh
 node --test tests/*.test.cjs
 python scripts/validate.py --static-only
 ```
 
-`market.js` contains the original bundled data, unchanged. `engine.js` implements parsing and calculations; `plot.js` renders the SVG chart; `app.js` manages the views. See [VALIDATION.md](VALIDATION.md) for repository checks and [SOURCE_SNAPSHOT.json](SOURCE_SNAPSHOT.json) for source provenance.
+[Calculation engine](engine.js) · [Chart rendering](plot.js) · [View controls](app.js) · [Frozen observations](market.js) · [Full validation instructions](VALIDATION.md)
 
-## Source and publication
+## Project history
 
-This project was extracted from the [canonical research lab](https://github.com/NeuraX-JB/Henry-Hub-Futures-Curve-Explorer-How-the-Natural-Gas-Market-prices-winter/tree/80c2e5321dadc95aadd4c7f65792fb15f0e2f156) at commit `80c2e5321dadc95aadd4c7f65792fb15f0e2f156`. The standalone interface is maintained here; its historical data remain frozen unless an explicit, reviewed refresh changes them. The original website and forecast ledger remain separate.
+This standalone interface uses the curve data extracted from the [Henry Hub Research Lab at the source revision](https://github.com/NeuraX-JB/Henry-Hub-Futures-Curve-Explorer-How-the-Natural-Gas-Market-prices-winter/tree/80c2e5321dadc95aadd4c7f65792fb15f0e2f156). The [snapshot record](SOURCE_SNAPSHOT.json) identifies the source commit and data hash. The [research lab](https://neurax-jb.github.io/Henry-Hub-Futures-Curve-Explorer-How-the-Natural-Gas-Market-prices-winter/lab/) hosts the wider portfolio, including its separately refreshed datasets and forecast ledger.
 
-Research and education, not investment advice. No new license is granted; review the [source and attribution notes](DATA_SOURCES.md) before reuse.
+Research and educational use. Source terms apply, and this edition grants no additional license.
